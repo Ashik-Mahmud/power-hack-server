@@ -18,4 +18,17 @@ const usersRegisterController = async(req, res) =>{
 };
 
 
-module.exports = {usersRegisterController}
+/* User Login Function */
+const userLoginController = async(req, res) =>{
+    await client.connect();
+    
+    const email = req.query.email;
+    const password = req.query.password;
+    console.log(email, password);
+ 
+}
+
+
+
+
+module.exports = {usersRegisterController,userLoginController}
