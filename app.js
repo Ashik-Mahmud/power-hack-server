@@ -5,10 +5,16 @@ require("dotenv").config();
 
 const app = express();
 
+const usersRouter = require("./Routes/users.route.js")
 
 /* Set Middle wares  */
 app.use(cors());
 app.use(express.json());
+
+/* ALL ENDPOINTS PUTTING HERE  */
+
+app.use("/users", usersRouter)
+
 
 
 /* testing api  */
