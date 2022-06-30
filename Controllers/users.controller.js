@@ -1,7 +1,21 @@
-
-const usersController = async(req, res) =>{
-    res.send({success: true, message: "Welcome to the USERS ROUTE API"});
+const client = require("./../Connection/connection.js");
+const usersCollection = client.db("power-pack").collection("users");
+const bcrypt = require("bcrypt")
+const usersRegisterController = async(req, res) =>{
+    await client.connect();
+    const {name, email, password} = req.body;
+    const isHas = await usersCollection.findOne({email: email});
+    const salt = await bcrypt.genSalt(10);
+    const hashPassword = await bcrypt.hash(password, salt);
+    
+    if(isHas){
+        return res.send({success: false, message: "Users already exists"});
+    }
+    const result = await usersCollection.insertOne({name: name, email: email, password: hashPassword});
+    if(result.acknowledged){
+        return res.send({success: true, message: "Users registered successfully"});
+    }
 };
 
 
-module.exports = {usersController}
+module.exports = {usersRegisterController}
