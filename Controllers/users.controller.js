@@ -1,4 +1,4 @@
-const client = require("./../Connection/connection.js");
+const client = require("../Connection/connection");
 const usersCollection = client.db("power-pack").collection("users");
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken");
@@ -51,6 +51,7 @@ const userLoginController = async(req, res) =>{
     await client.connect();
     const email = req.query.email;
     const password = req.query.password;
+        
     const isHas = await usersCollection.findOne({email: email });
     if(!isHas){
         return res.send({success: false, message: "Email is not registered"});
