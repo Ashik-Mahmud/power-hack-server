@@ -39,6 +39,7 @@ const editBillingController = async(req, res) =>{
     const email = req.query.email;
     const id = req.query.id;
     const updatedData = req.body;
+        
     if(decodedEmail === email){
         const query = {_id: ObjectId(id)};
         const updateDoc = {$set: updatedData}
