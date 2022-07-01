@@ -21,11 +21,12 @@ const addBillingController = async(req, res) =>{
 const billingListController = async(req, res) =>{
     const decodedEmail = req.decoded.email;
     const email = req.query.email;
+        
     if(decodedEmail === email){
         const result = await billingCollection.find({"author.email": email}).toArray();
-        if(result.length >0){
-            res.send({message: true, data: result});
-        }
+                
+        res.send({message: true, data: result});
+        
     }else{
         res.status(403).send({success: false, message: "You are not Authorized to perform this action"});
     }   
