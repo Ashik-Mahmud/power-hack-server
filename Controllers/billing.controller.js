@@ -1,3 +1,4 @@
+const { ObjectId } = require("mongodb");
 const client = require("../Connection/connection");
 const billingCollection = client.db("power-pack").collection("billings");
 
@@ -30,7 +31,19 @@ const billingListController = async(req, res) =>{
     }   
 }
 
+/* Delete Billing Controller */
+const deleteBillingController = async(req, res) =>{
+    const id = req.query.id;
+    const decodedEmail = req.decoded.email;
+    const email = req.query.email;
+    if(decodedEmail === email){
+        const result = await billingCollection.deleteOne({_id: ObjectId(id)});
+        if(result.acknowledged){
+            res.send({success: true, message: "Billing Deleted Successfully"});
+        }
+    }else{
+        res.status(403).send({success: false, message: "You are not Authorized to perform this action"});
+    }   
+}
 
-
-
-module.exports = {addBillingController,billingListController}
+module.exports = {addBillingController,billingListController, deleteBillingController }
